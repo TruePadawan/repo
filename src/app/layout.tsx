@@ -19,7 +19,11 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+    <html lang="en">
+      <header>
+        <h1>REPO</h1>
+        
+      </header>
 			<body
 				className={`${albertSans.variable} antialiased`}>
 				{children}
