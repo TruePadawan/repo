@@ -1,18 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #111111;
-  --foreground: #ffffff;
+	--background: #111111;
+	--foreground: #ffffff;
 }
 
-html {
-  font-family: var(--font-albert-sans);
+* {
+	font-family: "Albert Sans", serif;
+  font-optical-sizing: auto;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+	color: var(--foreground);
+	background: var(--background);
 }
