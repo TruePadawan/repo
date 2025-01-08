@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
 import { Albert_Sans } from "next/font/google";
+import {
+	ColorSchemeScript,
+	MantineProvider,
+	mantineHtmlProps,
+} from "@mantine/core";
+import "@mantine/core/styles.css";
 import "./globals.css";
 
 const albertSans = Albert_Sans({
@@ -19,14 +25,13 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-    <html lang="en">
-      <header>
-        <h1>REPO</h1>
-        
-      </header>
-			<body
-				className={`${albertSans.variable} antialiased`}>
-				{children}
+		<html lang="en" {...mantineHtmlProps}>
+			<head>
+				<ColorSchemeScript />
+      </head>
+			<body className={`${albertSans.variable} antialiased`}>
+				
+				<MantineProvider>{children}</MantineProvider>
 			</body>
 		</html>
 	);
