@@ -26,11 +26,11 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" {...mantineHtmlProps}>
+		<html lang="en" className="h-full" {...mantineHtmlProps}>
 			<head>
 				<ColorSchemeScript />
 			</head>
-			<body className="px-4 py-2 flex flex-col gap-4">
+			<body className="h-full px-4 py-2 flex flex-col gap-4">
 				<MantineProvider defaultColorScheme="dark">
 					<header className="flex justify-between">
 						<h1 className="text-5xl font-bold">
@@ -38,7 +38,7 @@ export default function RootLayout({
 						</h1>
 						<Menu>
 							<MenuTarget>
-								<Button variant="subtle" color="gray" size="md">
+								<Button variant="light" color="gray" size="md">
 									Sign in
 								</Button>
 							</MenuTarget>
