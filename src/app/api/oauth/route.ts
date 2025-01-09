@@ -1,5 +1,3 @@
-// src/app/oauth/route.js
-
 import { createAdminClient } from "@/lib/server/appwrite";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
