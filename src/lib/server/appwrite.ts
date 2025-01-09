@@ -1,5 +1,5 @@
 "use server";
-import { Client, Account } from "node-appwrite";
+import { Client, Account, Databases } from "node-appwrite";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -40,10 +40,18 @@ export async function getLoggedInUser() {
 	try {
 		const { account } = await createSessionClient();
 		return await account.get();
-    } catch (error) {
-        console.log(error)
+	} catch (error) {
+		console.log(error);
 		return null;
 	}
+}
+
+export async function getDatabases() {
+	const client = new Client()
+		.setEndpoint(String(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT))
+		.setProject(String(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID))
+		.setKey(String(process.env.NEXT_PUBLIC_APPWRITE_KEY));
+	return new Databases(client)
 }
 
 export async function signOut() {
