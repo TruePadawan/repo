@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
 import {
-	Button,
 	ColorSchemeScript,
 	MantineProvider,
-	Menu,
-	MenuDropdown,
-	MenuItem,
-	MenuTarget,
 	mantineHtmlProps,
 } from "@mantine/core";
 import "@mantine/core/styles.css";
-import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import "./globals.css";
 import Link from "next/link";
+import AuthButton from "@/components/AuthButton";
 
 export const metadata: Metadata = {
 	title: "REPO",
@@ -36,21 +31,7 @@ export default function RootLayout({
 						<h1 className="text-5xl font-bold">
 							<Link href="/">REPO</Link>
 						</h1>
-						<Menu>
-							<MenuTarget>
-								<Button variant="light" color="gray" size="md">
-									Sign in
-								</Button>
-							</MenuTarget>
-							<MenuDropdown>
-								<MenuItem leftSection={<IconBrandGoogle />}>
-									Sign in with Google
-								</MenuItem>
-								<MenuItem leftSection={<IconBrandGithub />}>
-									Sign in with Github
-								</MenuItem>
-							</MenuDropdown>
-						</Menu>
+						<AuthButton />
 					</header>
 					{children}
 				</MantineProvider>
