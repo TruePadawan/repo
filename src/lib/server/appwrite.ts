@@ -1,6 +1,7 @@
 "use server";
 import { Client, Account } from "node-appwrite";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function createSessionClient() {
 	const client = new Client()
@@ -43,4 +44,13 @@ export async function getLoggedInUser() {
         console.log(error)
 		return null;
 	}
+}
+
+export async function signOut() {
+	const { account } = await createSessionClient();
+
+	(await cookies()).delete("my-custom-session");
+	await account.deleteSession("current");
+
+	redirect("/");
 }
