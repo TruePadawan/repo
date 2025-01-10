@@ -1,4 +1,5 @@
 "use client";
+import { createCourse } from "@/app/actions/courseActions";
 import { Button, Modal, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
@@ -22,26 +23,14 @@ export default function AddCourse() {
 	async function handleSubmit(values: typeof form.values) {
 		setSubmitBtnIsDisabled(true);
 		try {
-			const response = await fetch("/api/create", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(values),
-			});
-
-			if (!response.ok) {
-				const error = await response.json();
-				throw new Error(error.errorMessage);
-			}
+			const response = await createCourse(values);
 
 			notifications.show({
 				title: "Course added",
-				message: `Course ${values.code} added successfully`,
-            });
-            
-            router.refresh();
-            form.reset();
+				message: `Course ${response.code} added successfully`,
+			});
+			router.refresh();
+			form.reset();
 			close();
 		} catch (error) {
 			notifications.show({
