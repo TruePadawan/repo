@@ -24,6 +24,26 @@ export async function getCourses(userId: string) {
 	return courses;
 }
 
+export async function getCourse(courseId: string) {
+	const databases = await getDatabases();
+	const response = await databases.getDocument(
+		DATABASE_ID,
+		COLLECTION_ID,
+		courseId
+	);
+
+	const course: CourseItemAttributes = {
+		$id: response.$id,
+		code: response.code,
+		description: response.description,
+		recommended_texts: response.recommended_texts,
+		slides: response.slides,
+		other_resources: response.other_resources,
+		createdBy: response.createdBy,
+	};
+	return course;
+}
+
 export async function updateCourse(
 	course: Omit<CourseItemAttributes, "createdBy">
 ) {
