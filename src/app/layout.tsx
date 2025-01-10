@@ -9,6 +9,7 @@ import Link from "next/link";
 import AuthButton from "@/components/AuthButton";
 import "./globals.css";
 import "@mantine/notifications/styles.css";
+import { Notifications } from "@mantine/notifications";
 
 export const metadata: Metadata = {
 	title: "REPO",
@@ -29,6 +30,7 @@ export default function RootLayout({
 			<body className="h-full">
 				<div className="px-4 py-2 flex flex-col gap-4">
 					<MantineProvider defaultColorScheme="dark">
+						<Notifications />
 						<header className="flex justify-between">
 							<h1 className="text-5xl font-bold">
 								<Link href="/">REPO</Link>
