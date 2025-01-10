@@ -1,9 +1,9 @@
 import Image from "next/image";
 import REPOImg from "../../public/REPO.png";
 import { getLoggedInUser } from "@/lib/server/appwrite";
-import { Button } from "@mantine/core";
 import { getCourses } from "./actions/courseActions";
 import CourseItem from "@/components/CourseItem";
+import AddCourse from "@/components/AddCourse";
 
 export default async function Home() {
 	const user = await getLoggedInUser();
@@ -34,8 +34,8 @@ export default async function Home() {
 
 	return (
 		<div className="flex-grow flex flex-col">
-			<Button color="gray">Add a course</Button>
-			<ul className="mt-2 list-none grid grid-flow-col auto-cols-max">
+			<AddCourse />
+			<ul className="mt-2 list-none flex flex-wrap gap-2">
 				{courses.map((course) => (
 					<CourseItem key={course.$id} {...course} />
 				))}
