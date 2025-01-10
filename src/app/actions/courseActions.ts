@@ -1,9 +1,9 @@
 "use server";
 
-import { getDatabases } from "@/lib/server/appwrite";
+import { getDatabases, getLoggedInUser } from "@/lib/server/appwrite";
 import { CourseItemAttributes } from "@/lib/types";
 import { COLLECTION_ID, DATABASE_ID } from "@/lib/utils";
-import { Query } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 
 export async function getCourses(userId: string) {
 	const databases = await getDatabases();
@@ -46,34 +46,33 @@ export async function updateCourse(
 	};
 	return updatedCourse;
 }
-// This server action was being a pain, go away for now
-// export async function createCourse(
-// 	course: Omit<CourseItemAttributes, "$id" | "createdBy">
-// ) {
-// 	const user = await getLoggedInUser();
-// 	if (user == null) {
-// 		throw new Error("User not logged in");
-// 	}
-// 	const databases = await getDatabases();
-// 	const response = await databases.createDocument(
-// 		DATABASE_ID,
-// 		COLLECTION_ID,
-// 		ID.unique(),
-// 		{
-// 			...course,
-// 			createdBy: user.$id,
-// 		}
-// 	);
 
-// 	const newCourse: CourseItemAttributes = {
-// 		$id: response.$id,
-// 		code: response.code,
-// 		description: response.description,
-// 		recommended_texts: response.recommended_texts,
-// 		slides: response.slides,
-// 		other_resources: response.other_resources,
-// 		createdBy: response.createdBy,
-// 	};
-// 	revalidatePath("/")
-// 	return newCourse;
-// }
+export async function createCourse(
+	course: Omit<CourseItemAttributes, "$id" | "createdBy">
+) {
+	const user = await getLoggedInUser();
+	if (user == null) {
+		throw new Error("User not logged in");
+	}
+	const databases = await getDatabases();
+	const response = await databases.createDocument(
+		DATABASE_ID,
+		COLLECTION_ID,
+		ID.unique(),
+		{
+			...course,
+			createdBy: user.$id,
+		}
+	);
+
+	const newCourse: CourseItemAttributes = {
+		$id: response.$id,
+		code: response.code,
+		description: response.description,
+		recommended_texts: response.recommended_texts,
+		slides: response.slides,
+		other_resources: response.other_resources,
+		createdBy: response.createdBy,
+	};
+	return newCourse;
+}
