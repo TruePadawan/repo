@@ -15,6 +15,7 @@ export default function CourseItem(props: CourseItemAttributes) {
 		{ open: openDeleteDialog, close: closeDeleteDialog },
 	] = useDisclosure(false);
 
+	const href = `/courses/${props.$id}`;
 	return (
 		<Button
 			color="dark"
@@ -41,7 +42,7 @@ export default function CourseItem(props: CourseItemAttributes) {
 					</Menu.Dropdown>
 				</Menu>
 			}>
-			<Link href="/">{props.code}</Link>
+			<Link href={href}>{props.code}</Link>
 			<EditCourseDialog
 				course={props}
 				dialogProps={{
