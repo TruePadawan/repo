@@ -26,6 +26,16 @@ export default function RootLayout({
 		<html lang="en" className="h-full" {...mantineHtmlProps}>
 			<head>
 				<ColorSchemeScript />
+				<link
+					type="image/png"
+					sizes="32x32"
+					rel="icon"
+					href="/icons8-repo-color-32.png"></link>
+				<link
+					rel="apple-touch-icon"
+					type="image/png"
+					sizes="60x60"
+					href="/icons8-repo-color-60.png"></link>
 			</head>
 			<body className="h-full">
 				<MantineProvider defaultColorScheme="dark">
