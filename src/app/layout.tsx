@@ -5,9 +5,10 @@ import {
 	mantineHtmlProps,
 } from "@mantine/core";
 import "@mantine/core/styles.css";
-import "./globals.css";
 import Link from "next/link";
 import AuthButton from "@/components/AuthButton";
+import "./globals.css";
+import "@mantine/notifications/styles.css";
 
 export const metadata: Metadata = {
 	title: "REPO",
