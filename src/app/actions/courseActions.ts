@@ -10,11 +10,11 @@ export async function getCourses(userId: string) {
 	const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID, [
 		Query.equal("createdBy", userId),
 	]);
-	const courses = response.documents.map((doc) => {
+	const courses: CourseItemAttributes[] = response.documents.map((doc) => {
 		return {
 			$id: doc.$id,
 			code: doc.code,
-			desciption: doc.description,
+			description: doc.description,
 			recommended_texts: doc.recommended_texts,
 			slides: doc.slides,
 			other_resources: doc.other_resources,
