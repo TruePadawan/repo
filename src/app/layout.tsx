@@ -25,16 +25,18 @@ export default function RootLayout({
 			<head>
 				<ColorSchemeScript />
 			</head>
-			<body className="h-full px-4 py-2 flex flex-col gap-4">
-				<MantineProvider defaultColorScheme="dark">
-					<header className="flex justify-between">
-						<h1 className="text-5xl font-bold">
-							<Link href="/">REPO</Link>
-						</h1>
-						<AuthButton />
-					</header>
-					{children}
-				</MantineProvider>
+			<body className="h-full">
+				<div className="px-4 py-2 flex flex-col gap-4">
+					<MantineProvider defaultColorScheme="dark">
+						<header className="flex justify-between">
+							<h1 className="text-5xl font-bold">
+								<Link href="/">REPO</Link>
+							</h1>
+							<AuthButton />
+						</header>
+						{children}
+					</MantineProvider>
+				</div>
 			</body>
 		</html>
 	);
