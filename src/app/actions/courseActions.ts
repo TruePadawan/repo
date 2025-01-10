@@ -76,3 +76,8 @@ export async function createCourse(
 	};
 	return newCourse;
 }
+
+export async function deleteCourse(courseId: string) {
+	const databases = await getDatabases();
+	await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, courseId);
+}
