@@ -28,8 +28,8 @@ export default function RootLayout({
 				<ColorSchemeScript />
 			</head>
 			<body className="h-full">
-				<div className="px-4 py-2 flex flex-col gap-4">
-					<MantineProvider defaultColorScheme="dark">
+				<MantineProvider defaultColorScheme="dark">
+					<div className="px-4 py-2 flex flex-col gap-4">
 						<Notifications />
 						<header className="flex justify-between">
 							<h1 className="text-5xl font-bold">
@@ -38,8 +38,8 @@ export default function RootLayout({
 							<AuthButton />
 						</header>
 						{children}
-					</MantineProvider>
-				</div>
+					</div>
+				</MantineProvider>
 			</body>
 		</html>
 	);
