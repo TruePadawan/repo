@@ -27,7 +27,7 @@ export default function DeleteCourseDialog(props: DeleteCourseDialogProps) {
 				title: "Course deleted",
 				message: `Course ${course.code} deleted successfully`,
 			});
-			router.refresh();
+			router.replace("/");
 			dialogProps.close();
 		} catch (error) {
 			notifications.show({
