@@ -3,6 +3,9 @@ import { Client, Account, Databases } from "node-appwrite";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+// Don't share clients between requests when using Appwrite server-side, it introduces security vulnerabilities
+// https://appwrite.io/docs/tutorials/nextjs-ssr-auth/step-3
+
 export async function createSessionClient() {
 	const client = new Client()
 		.setEndpoint(String(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT))
@@ -51,7 +54,7 @@ export async function getDatabases() {
 		.setEndpoint(String(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT))
 		.setProject(String(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID))
 		.setKey(String(process.env.NEXT_PUBLIC_APPWRITE_KEY));
-	return new Databases(client)
+	return new Databases(client);
 }
 
 export async function signOut() {
