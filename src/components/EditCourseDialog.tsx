@@ -53,45 +53,43 @@ export default function EditCourseDialog(props: EditCourseDialogProps) {
 	}
 
 	return (
-		<>
-			<Modal
-				opened={dialogProps.opened}
-				onClose={dialogProps.close}
-				title={`Edit course - ${course.code}`}
-				size="lg"
-				centered>
-				<form
-					className="flex flex-col gap-2"
-					onSubmit={form.onSubmit(handleSubmit)}>
-					<TextInput
-						variant="filled"
-						size="md"
-						radius="xs"
-						label="Course code"
-						placeholder="CSC102"
-						name="code"
-						key={form.key("code")}
-						{...form.getInputProps("code")}
-						required
-					/>
-					<Textarea
-						variant="filled"
-						size="md"
-						radius="xs"
-						label="Course description"
-						name="description"
-						key={form.key("description")}
-						{...form.getInputProps("description")}
-					/>
-					<Button
-						type="submit"
-						color="gray"
-						size="md"
-						disabled={submitBtnIsDisabled}>
-						Update
-					</Button>
-				</form>
-			</Modal>
-		</>
+		<Modal
+			opened={dialogProps.opened}
+			onClose={dialogProps.close}
+			title={`Edit course - ${course.code}`}
+			size="lg"
+			centered>
+			<form
+				className="flex flex-col gap-2"
+				onSubmit={form.onSubmit(handleSubmit)}>
+				<TextInput
+					variant="filled"
+					size="md"
+					radius="xs"
+					label="Course code"
+					placeholder="CSC102"
+					name="code"
+					key={form.key("code")}
+					{...form.getInputProps("code")}
+					required
+				/>
+				<Textarea
+					variant="filled"
+					size="md"
+					radius="xs"
+					label="Course description"
+					name="description"
+					key={form.key("description")}
+					{...form.getInputProps("description")}
+				/>
+				<Button
+					type="submit"
+					color="gray"
+					size="md"
+					disabled={submitBtnIsDisabled}>
+					Update
+				</Button>
+			</form>
+		</Modal>
 	);
 }
