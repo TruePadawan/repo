@@ -1,6 +1,6 @@
 export interface CourseItemAttributes {
 	$id: string;
-	name: string;
+	code: string;
 	description?: string;
 	recommended_texts?: string;
 	slides?: string;

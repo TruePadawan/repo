@@ -27,7 +27,7 @@ export default function CourseItem(props: CourseItemAttributes) {
 					</MenuDropdown>
 				</Menu>
 			}>
-			<Link href="/">{props.name}</Link>
+			<Link href="/">{props.code}</Link>
 		</Button>
 	);
 }
