@@ -29,7 +29,7 @@ export default function RootLayout({
 			</head>
 			<body className="h-full">
 				<MantineProvider defaultColorScheme="dark">
-					<div className="px-4 py-2 flex flex-col gap-4">
+					<div className="h-full px-4 py-2 flex flex-col gap-4">
 						<Notifications />
 						<header className="flex justify-between">
 							<h1 className="text-5xl font-bold">
