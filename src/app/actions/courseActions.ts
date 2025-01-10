@@ -1,4 +1,7 @@
+"use server";
+
 import { getDatabases } from "@/lib/server/appwrite";
+import { CourseItemAttributes } from "@/lib/types";
 import { COLLECTION_ID, DATABASE_ID } from "@/lib/utils";
 import { Query } from "node-appwrite";
 
@@ -21,6 +24,28 @@ export async function getCourses(userId: string) {
 	return courses;
 }
 
+export async function updateCourse(
+	course: Omit<CourseItemAttributes, "createdBy">
+) {
+	const databases = await getDatabases();
+	const response = await databases.updateDocument(
+		DATABASE_ID,
+		COLLECTION_ID,
+		course.$id,
+		course
+	);
+
+	const updatedCourse: CourseItemAttributes = {
+		$id: response.$id,
+		code: response.code,
+		description: response.description,
+		recommended_texts: response.recommended_texts,
+		slides: response.slides,
+		other_resources: response.other_resources,
+		createdBy: response.createdBy,
+	};
+	return updatedCourse;
+}
 // This server action was being a pain, go away for now
 // export async function createCourse(
 // 	course: Omit<CourseItemAttributes, "$id" | "createdBy">
