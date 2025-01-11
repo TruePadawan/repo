@@ -1,5 +1,5 @@
 "use client";
-import DeleteCourseDialog from "@/components/DeleteCourseDialog";
+import DeleteCourseDialog from "@/components/CourseItem/DeleteCourseDialog";
 import { CourseItemAttributes } from "@/lib/types";
 import { Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";

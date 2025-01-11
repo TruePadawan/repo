@@ -2,7 +2,7 @@ import Image from "next/image";
 import REPOImg from "../../public/REPO.png";
 import { getLoggedInUser } from "@/lib/server/appwrite";
 import { getCourses } from "./actions/courseActions";
-import CourseItem from "@/components/CourseItem";
+import CourseItem from "@/components/CourseItem/CourseItem";
 import AddCourse from "@/components/AddCourse";
 
 export default async function Home() {

@@ -1,5 +1,5 @@
 "use client";
-import EditCourseDialog from "@/components/EditCourseDialog";
+import EditCourseDialog from "@/components/CourseItem/EditCourseDialog";
 import { CourseItemAttributes } from "@/lib/types";
 import { Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
