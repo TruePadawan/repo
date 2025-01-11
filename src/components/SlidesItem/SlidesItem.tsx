@@ -34,7 +34,9 @@ export default function SlidesItem(props: SlidesItemProps) {
 					</Menu.Dropdown>
 				</Menu>
 			}>
-			{props.slides.title}
+			<a href={props.slides.link} target="_blank">
+				{props.slides.title}
+			</a>
 		</Button>
 	);
 }
