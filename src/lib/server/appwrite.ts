@@ -30,7 +30,7 @@ export async function createAdminClient() {
 	const client = new Client()
 		.setEndpoint(String(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT))
 		.setProject(String(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID))
-		.setKey(String(process.env.NEXT_PUBLIC_APPWRITE_KEY));
+		.setKey(String(process.env.APPWRITE_KEY));
 
 	return {
 		get account() {
@@ -53,7 +53,7 @@ export async function getDatabases() {
 	const client = new Client()
 		.setEndpoint(String(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT))
 		.setProject(String(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID))
-		.setKey(String(process.env.NEXT_PUBLIC_APPWRITE_KEY));
+		.setKey(String(process.env.APPWRITE_KEY));
 	return new Databases(client);
 }
 
