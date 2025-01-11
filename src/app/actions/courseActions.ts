@@ -11,7 +11,7 @@ import {
 	SlidesListAttributes,
 } from "@/lib/types";
 import { COLLECTION_ID, DATABASE_ID } from "@/lib/utils";
-import { ID, Query } from "node-appwrite";
+import { ID, Permission, Query, Role } from "node-appwrite";
 
 // ------------------ COURSES ----------------
 export async function getCourses(userId: string) {
@@ -91,7 +91,11 @@ export async function createCourse(
 		{
 			...course,
 			createdBy: user.$id,
-		}
+		},
+		[
+			Permission.update(Role.user(user.$id)),
+			Permission.delete(Role.user(user.$id)),
+		]
 	);
 
 	const newCourse: CourseItemAttributes = {
