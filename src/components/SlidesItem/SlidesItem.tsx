@@ -1,6 +1,6 @@
 "use client";
 import { SlidesAttributes } from "@/lib/types";
-import { Button, Menu, ActionIcon, Modal } from "@mantine/core";
+import { Button, Menu, ActionIcon, Modal, Anchor } from "@mantine/core";
 import { IconDotsVertical } from "@tabler/icons-react";
 import classes from "./SlidesItem.module.css";
 import { useState } from "react";
@@ -13,10 +13,16 @@ interface SlidesItemProps {
 	courseId: string;
 	slides: SlidesAttributes;
 }
+
 export default function SlidesItem(props: SlidesItemProps) {
 	const [
 		deleteDialogIsOpen,
 		{ open: openDeleteDialog, close: closeDeleteDialog },
+	] = useDisclosure(false);
+
+	const [
+		detailsDialogIsOpen,
+		{ open: openDetailsDialog, close: closeDetailsDialog },
 	] = useDisclosure(false);
 
 	return (
@@ -38,7 +44,9 @@ export default function SlidesItem(props: SlidesItemProps) {
 						</ActionIcon>
 					</Menu.Target>
 					<Menu.Dropdown>
-						<Menu.Item>View Details</Menu.Item>
+						<Menu.Item onClick={openDetailsDialog}>
+							View Details
+						</Menu.Item>
 						<Menu.Item>Edit Slides</Menu.Item>
 						<Menu.Item onClick={openDeleteDialog}>
 							Delete Slides
@@ -56,6 +64,14 @@ export default function SlidesItem(props: SlidesItemProps) {
 					opened: deleteDialogIsOpen,
 					open: openDeleteDialog,
 					close: closeDeleteDialog,
+				}}
+			/>
+			<SlidesDetailsDialog
+				slides={props.slides}
+				dialogProps={{
+					opened: detailsDialogIsOpen,
+					open: openDetailsDialog,
+					close: closeDetailsDialog,
 				}}
 			/>
 		</Button>
@@ -121,6 +137,50 @@ function DeleteSlidesDialog(props: DeleteSlidesDialogProps) {
 					disabled={btnsAreDisabled}>
 					No
 				</Button>
+			</div>
+		</Modal>
+	);
+}
+
+interface SlidesDetailsDialogProps {
+	dialogProps: {
+		opened: boolean;
+		close: () => void;
+		open: () => void;
+	};
+	slides: SlidesAttributes;
+}
+
+function SlidesDetailsDialog(props: SlidesDetailsDialogProps) {
+	const { dialogProps, slides } = props;
+	return (
+		<Modal
+			title="Slides"
+			size="lg"
+			opened={dialogProps.opened}
+			onClose={dialogProps.close}
+			centered>
+			<div className="flex flex-col gap-4">
+				<div className="flex flex-col gap-1">
+					<p className="text-md">Title</p>
+					<p className="text-lg font-bold">{slides.title}</p>
+				</div>
+				<div className="flex flex-col gap-1">
+					<p className="text-md">Link</p>
+					<Anchor
+						className="text-lg font-bold self-start"
+						href={slides.link}
+						target="_blank"
+						underline="hover">
+						Go to Slides
+					</Anchor>
+				</div>
+				<div className="flex flex-col gap-1">
+					<p className="text-md">Description</p>
+					<p className="text-lg font-bold">
+						{slides.description || "No description"}
+					</p>
+				</div>
 			</div>
 		</Modal>
 	);
