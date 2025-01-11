@@ -48,6 +48,13 @@ export default function RootLayout({
 							<AuthButton />
 						</header>
 						{children}
+						<footer className="flex justify-center font-bold">
+							<a
+								target="_blank"
+								href="https://icons8.com/icon/33318/repository">
+								Repo favicon by Icons8
+							</a>
+						</footer>
 					</div>
 				</MantineProvider>
 			</body>
