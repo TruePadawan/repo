@@ -21,6 +21,7 @@ import { deleteResource, updateResource } from "@/app/actions/courseActions";
 interface ResourceItemProps {
 	courseId: string;
 	resource: ResourceAttributes;
+	allowManipulation: boolean;
 }
 
 export default function ResourceItem(props: ResourceItemProps) {
@@ -58,36 +59,44 @@ export default function ResourceItem(props: ResourceItemProps) {
 						<Menu.Item onClick={openDetailsDialog}>
 							View Details
 						</Menu.Item>
-						<Menu.Item onClick={openEditDialog}>
-							Edit Resource
-						</Menu.Item>
-						<Menu.Item onClick={openDeleteDialog}>
-							Delete Resource
-						</Menu.Item>
+						{props.allowManipulation && (
+							<>
+								<Menu.Item onClick={openEditDialog}>
+									Edit Resource
+								</Menu.Item>
+								<Menu.Item onClick={openDeleteDialog}>
+									Delete Resource
+								</Menu.Item>
+							</>
+						)}
 					</Menu.Dropdown>
 				</Menu>
 			}>
 			<a href={props.resource.link} target="_blank">
 				{props.resource.title}
 			</a>
-			<EditResourceDialog
-				resource={props.resource}
-				courseId={props.courseId}
-				dialogProps={{
-					opened: editDialogIsOpen,
-					open: openEditDialog,
-					close: closeEditDialog,
-				}}
-			/>
-			<DeleteResourceDialog
-				resource={props.resource}
-				courseId={props.courseId}
-				dialogProps={{
-					opened: deleteDialogIsOpen,
-					open: openDeleteDialog,
-					close: closeDeleteDialog,
-				}}
-			/>
+			{props.allowManipulation && (
+				<>
+					<EditResourceDialog
+						resource={props.resource}
+						courseId={props.courseId}
+						dialogProps={{
+							opened: editDialogIsOpen,
+							open: openEditDialog,
+							close: closeEditDialog,
+						}}
+					/>
+					<DeleteResourceDialog
+						resource={props.resource}
+						courseId={props.courseId}
+						dialogProps={{
+							opened: deleteDialogIsOpen,
+							open: openDeleteDialog,
+							close: closeDeleteDialog,
+						}}
+					/>
+				</>
+			)}
 			<ResourceDetailsDialog
 				resource={props.resource}
 				dialogProps={{

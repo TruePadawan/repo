@@ -16,6 +16,7 @@ import {
 interface RecommendedTextItemProps {
 	text: RecommendedTextAttributes;
 	courseId: string;
+	allowManipulation: boolean;
 }
 export default function RecommendedTextItem(props: RecommendedTextItemProps) {
 	const [editDialogIsOpen, { open: openEditDialog, close: closeEditDialog }] =
@@ -51,34 +52,42 @@ export default function RecommendedTextItem(props: RecommendedTextItemProps) {
 						<Menu.Item onClick={openDetailsDialog}>
 							View Details
 						</Menu.Item>
-						<Menu.Item onClick={openEditDialog}>
-							Edit Recommended Text
-						</Menu.Item>
-						<Menu.Item onClick={openDeleteDialog}>
-							Delete Recommended Text
-						</Menu.Item>
+						{props.allowManipulation && (
+							<>
+								<Menu.Item onClick={openEditDialog}>
+									Edit Recommended Text
+								</Menu.Item>
+								<Menu.Item onClick={openDeleteDialog}>
+									Delete Recommended Text
+								</Menu.Item>
+							</>
+						)}
 					</Menu.Dropdown>
 				</Menu>
 			}>
 			{props.text.title}
-			<EditRecommendedTextDialog
-				text={props.text}
-				courseId={props.courseId}
-				dialogProps={{
-					opened: editDialogIsOpen,
-					open: openEditDialog,
-					close: closeEditDialog,
-				}}
-			/>
-			<DeleteRecommendedTextDialog
-				dialogProps={{
-					opened: deleteDialogIsOpen,
-					open: openDeleteDialog,
-					close: closeDeleteDialog,
-				}}
-				text={props.text}
-				courseId={props.courseId}
-			/>
+			{props.allowManipulation && (
+				<>
+					<EditRecommendedTextDialog
+						text={props.text}
+						courseId={props.courseId}
+						dialogProps={{
+							opened: editDialogIsOpen,
+							open: openEditDialog,
+							close: closeEditDialog,
+						}}
+					/>
+					<DeleteRecommendedTextDialog
+						dialogProps={{
+							opened: deleteDialogIsOpen,
+							open: openDeleteDialog,
+							close: closeDeleteDialog,
+						}}
+						text={props.text}
+						courseId={props.courseId}
+					/>
+				</>
+			)}
 			<RecommendedTextDetailsDialog
 				dialogProps={{
 					opened: detailsDialogIsOpen,
@@ -256,7 +265,9 @@ interface RecommendedTextDetailsDialogProps {
 	text: RecommendedTextAttributes;
 }
 
-function RecommendedTextDetailsDialog(props: RecommendedTextDetailsDialogProps) {
+function RecommendedTextDetailsDialog(
+	props: RecommendedTextDetailsDialogProps
+) {
 	const { dialogProps, text } = props;
 	return (
 		<Modal

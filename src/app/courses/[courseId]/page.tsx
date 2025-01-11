@@ -14,17 +14,20 @@ import AddSlidesButton from "./components/AddSlidesButton";
 import SlidesItem from "@/components/SlidesItem/SlidesItem";
 import AddResourceButton from "./components/AddResourceButton";
 import ResourceItem from "@/components/ResourceItem/ResourceItem";
+import { getLoggedInUser } from "@/lib/server/appwrite";
 
 interface PageProps {
 	params: Promise<{ courseId: string }>;
 }
 
 export default async function Page({ params }: PageProps) {
+	const user = await getLoggedInUser();
 	const courseId = (await params).courseId;
 	const course = await getCourse(courseId);
 	const texts = parseRecommendedTexts(course.recommended_texts);
 	const slidesList = parseSlidesList(course.slides);
 	const resources = parseResources(course.other_resources);
+	const allowManipulation = user?.$id == course.createdBy;
 
 	return (
 		<main className="flex flex-col gap-2">
@@ -43,10 +46,12 @@ export default async function Page({ params }: PageProps) {
 							</p>
 						)}
 					</div>
-					<div className="flex flex-col gap-2">
-						<EditCourseButton {...course} />
-						<DeleteCourseButton {...course} />
-					</div>
+					{allowManipulation && (
+						<div className="flex flex-col gap-2">
+							<EditCourseButton {...course} />
+							<DeleteCourseButton {...course} />
+						</div>
+					)}
 				</div>
 				{/* RECOMMENDED TEXTS */}
 				<div className="flex flex-col gap-3">
@@ -54,7 +59,9 @@ export default async function Page({ params }: PageProps) {
 						<h2 className="text-2xl md:text-4xl font-bold">
 							Recommended Texts
 						</h2>
-						<AddRecommendedTextButton courseId={course.$id} />
+						{allowManipulation && (
+							<AddRecommendedTextButton courseId={course.$id} />
+						)}
 					</div>
 					<ul className="flex flex-wrap gap-2">
 						{texts.map((text) => (
@@ -62,6 +69,7 @@ export default async function Page({ params }: PageProps) {
 								key={text.$id}
 								text={text}
 								courseId={courseId}
+								allowManipulation={allowManipulation}
 							/>
 						))}
 					</ul>
@@ -72,7 +80,9 @@ export default async function Page({ params }: PageProps) {
 						<h2 className="text-2xl md:text-4xl font-bold">
 							Course Slides
 						</h2>
-						<AddSlidesButton courseId={course.$id} />
+						{allowManipulation && (
+							<AddSlidesButton courseId={course.$id} />
+						)}
 					</div>
 					<ul className="flex flex-wrap gap-2">
 						{slidesList.map((slides) => (
@@ -80,6 +90,7 @@ export default async function Page({ params }: PageProps) {
 								key={slides.$id}
 								slides={slides}
 								courseId={courseId}
+								allowManipulation={allowManipulation}
 							/>
 						))}
 					</ul>
@@ -90,7 +101,9 @@ export default async function Page({ params }: PageProps) {
 						<h2 className="text-2xl md:text-4xl font-bold">
 							Other Resources
 						</h2>
-						<AddResourceButton courseId={course.$id} />
+						{allowManipulation && (
+							<AddResourceButton courseId={course.$id} />
+						)}
 					</div>
 					<ul className="flex flex-wrap gap-2">
 						{resources.map((resource) => (
@@ -98,6 +111,7 @@ export default async function Page({ params }: PageProps) {
 								key={resource.$id}
 								resource={resource}
 								courseId={courseId}
+								allowManipulation={allowManipulation}
 							/>
 						))}
 					</ul>

@@ -21,6 +21,7 @@ import { useForm } from "@mantine/form";
 interface SlidesItemProps {
 	courseId: string;
 	slides: SlidesAttributes;
+	allowManipulation: boolean;
 }
 
 export default function SlidesItem(props: SlidesItemProps) {
@@ -58,36 +59,44 @@ export default function SlidesItem(props: SlidesItemProps) {
 						<Menu.Item onClick={openDetailsDialog}>
 							View Details
 						</Menu.Item>
-						<Menu.Item onClick={openEditDialog}>
-							Edit Slides
-						</Menu.Item>
-						<Menu.Item onClick={openDeleteDialog}>
-							Delete Slides
-						</Menu.Item>
+						{props.allowManipulation && (
+							<>
+								<Menu.Item onClick={openEditDialog}>
+									Edit Slides
+								</Menu.Item>
+								<Menu.Item onClick={openDeleteDialog}>
+									Delete Slides
+								</Menu.Item>
+							</>
+						)}
 					</Menu.Dropdown>
 				</Menu>
 			}>
 			<a href={props.slides.link} target="_blank">
 				{props.slides.title}
 			</a>
-			<EditSlidesDialog
-				slides={props.slides}
-				courseId={props.courseId}
-				dialogProps={{
-					opened: editDialogIsOpen,
-					open: openEditDialog,
-					close: closeEditDialog,
-				}}
-			/>
-			<DeleteSlidesDialog
-				slides={props.slides}
-				courseId={props.courseId}
-				dialogProps={{
-					opened: deleteDialogIsOpen,
-					open: openDeleteDialog,
-					close: closeDeleteDialog,
-				}}
-			/>
+			{props.allowManipulation && (
+				<>
+					<EditSlidesDialog
+						slides={props.slides}
+						courseId={props.courseId}
+						dialogProps={{
+							opened: editDialogIsOpen,
+							open: openEditDialog,
+							close: closeEditDialog,
+						}}
+					/>
+					<DeleteSlidesDialog
+						slides={props.slides}
+						courseId={props.courseId}
+						dialogProps={{
+							opened: deleteDialogIsOpen,
+							open: openDeleteDialog,
+							close: closeDeleteDialog,
+						}}
+					/>
+				</>
+			)}
 			<SlidesDetailsDialog
 				slides={props.slides}
 				dialogProps={{
