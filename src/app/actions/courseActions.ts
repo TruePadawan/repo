@@ -245,3 +245,47 @@ export async function addResource(
 		other_resources: JSON.stringify(updatedResources),
 	});
 }
+
+export async function updateResource(
+	resource: ResourceAttributes,
+	courseId: string
+) {
+	const databases = await getDatabases();
+	const response = await databases.getDocument(
+		DATABASE_ID,
+		COLLECTION_ID,
+		courseId,
+		[Query.select(["other_resources"])]
+	);
+	const course: Pick<CourseItemAttributes, "other_resources"> = {
+		other_resources: response.other_resources,
+	};
+	const updatedResources = course.other_resources
+		? JSON.parse(course.other_resources)
+		: {};
+	updatedResources[resource.$id] = resource;
+
+	await databases.updateDocument(DATABASE_ID, COLLECTION_ID, courseId, {
+		other_resources: JSON.stringify(updatedResources),
+	});
+}
+
+export async function deleteResource(courseId: string, resourceId: string) {
+	const databases = await getDatabases();
+	const response = await databases.getDocument(
+		DATABASE_ID,
+		COLLECTION_ID,
+		courseId,
+		[Query.select(["other_resources"])]
+	);
+	const course: Pick<CourseItemAttributes, "other_resources"> = {
+		other_resources: response.other_resources,
+	};
+	const resources = course.other_resources
+		? JSON.parse(course.other_resources)
+		: {};
+	delete resources[resourceId];
+	await databases.updateDocument(DATABASE_ID, COLLECTION_ID, courseId, {
+		other_resources: JSON.stringify(resources),
+	});
+}
