@@ -4,8 +4,9 @@ import { ActionIcon, Button, Menu } from "@mantine/core";
 import { IconDotsVertical } from "@tabler/icons-react";
 import Link from "next/link";
 import EditCourseDialog from "./EditCourseDialog";
-import { useDisclosure } from "@mantine/hooks";
+import { useClipboard, useDisclosure } from "@mantine/hooks";
 import DeleteCourseDialog from "./DeleteCourseDialog";
+import { notifications } from "@mantine/notifications";
 
 export default function CourseItem(props: CourseItemAttributes) {
 	const [editDialogIsOpen, { open: openEditDialog, close: closeEditDialog }] =
@@ -14,8 +15,17 @@ export default function CourseItem(props: CourseItemAttributes) {
 		deleteDialogIsOpen,
 		{ open: openDeleteDialog, close: closeDeleteDialog },
 	] = useDisclosure(false);
+	const clipboard = useClipboard();
 
-	const href = `/courses/${props.$id}`;
+	const pathname = `/courses/${props.$id}`;
+
+	function copyToClipboard() {
+		clipboard.copy(`${window.location.href}courses/${props.$id}`);
+		notifications.show({
+			message: "Copied to clipboard",
+		});
+	}
+
 	return (
 		<Button
 			color="dark"
@@ -33,17 +43,19 @@ export default function CourseItem(props: CourseItemAttributes) {
 						</ActionIcon>
 					</Menu.Target>
 					<Menu.Dropdown>
+						<Menu.Item onClick={copyToClipboard}>
+							Copy Link to Clipboard
+						</Menu.Item>
 						<Menu.Item onClick={openEditDialog}>
 							Edit Course Details
 						</Menu.Item>
-						<Menu.Item>Copy Link to Clipboard</Menu.Item>
 						<Menu.Item onClick={openDeleteDialog}>
 							Delete Course
 						</Menu.Item>
 					</Menu.Dropdown>
 				</Menu>
 			}>
-			<Link href={href}>{props.code}</Link>
+			<Link href={pathname}>{props.code}</Link>
 			<EditCourseDialog
 				course={props}
 				dialogProps={{
