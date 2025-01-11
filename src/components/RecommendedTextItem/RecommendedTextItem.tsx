@@ -35,7 +35,7 @@ export default function RecommendedTextItem(props: RecommendedTextItemProps) {
 			size="md"
 			radius="xs"
 			color="dark"
-			className="text-xl rounded-none"
+			className="text-lg md:text-xl rounded-none"
 			classNames={{ root: classes.root }}
 			rightSection={
 				<Menu>

@@ -42,7 +42,7 @@ export default function ResourceItem(props: ResourceItemProps) {
 			size="md"
 			radius="xs"
 			color="dark"
-			className="text-xl rounded-none"
+			className="text-lg md:text-xl rounded-none"
 			classNames={{ root: classes.root }}
 			rightSection={
 				<Menu>

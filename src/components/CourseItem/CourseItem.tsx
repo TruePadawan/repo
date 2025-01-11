@@ -21,6 +21,7 @@ export default function CourseItem(props: CourseItemAttributes) {
 			color="dark"
 			size="xl"
 			component="li"
+			className="text-lg md:text-xl"
 			rightSection={
 				<Menu>
 					<Menu.Target>
