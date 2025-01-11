@@ -13,6 +13,7 @@ import {
 import { COLLECTION_ID, DATABASE_ID } from "@/lib/utils";
 import { ID, Query } from "node-appwrite";
 
+// ------------------ COURSES ----------------
 export async function getCourses(userId: string) {
 	const databases = await getDatabases();
 	const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID, [
@@ -110,6 +111,7 @@ export async function deleteCourse(courseId: string) {
 	await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, courseId);
 }
 
+// ------------------ RECOMMENDED TEXTS ----------------
 export async function addRecommendedText(
 	courseId: string,
 	text: Omit<RecommendedTextAttributes, "$id">
@@ -173,6 +175,7 @@ export async function deleteRecommendedText(courseId: string, textId: string) {
 	});
 }
 
+// ------------------ SLIDES ----------------
 export async function addSlides(
 	courseId: string,
 	slides: Omit<SlidesAttributes, "$id">
@@ -227,6 +230,7 @@ export async function deleteSlides(courseId: string, slidesId: string) {
 	});
 }
 
+// ------------------ RESOURCES ----------------
 export async function addResource(
 	courseId: string,
 	resource: Omit<ResourceAttributes, "$id">
