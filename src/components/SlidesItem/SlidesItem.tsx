@@ -1,13 +1,22 @@
 "use client";
 import { SlidesAttributes } from "@/lib/types";
-import { Button, Menu, ActionIcon, Modal, Anchor } from "@mantine/core";
+import {
+	Button,
+	Menu,
+	ActionIcon,
+	Modal,
+	Anchor,
+	TextInput,
+	Textarea,
+} from "@mantine/core";
 import { IconDotsVertical } from "@tabler/icons-react";
 import classes from "./SlidesItem.module.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { notifications } from "@mantine/notifications";
-import { deleteSlides } from "@/app/actions/courseActions";
+import { deleteSlides, updateSlides } from "@/app/actions/courseActions";
 import { useDisclosure } from "@mantine/hooks";
+import { useForm } from "@mantine/form";
 
 interface SlidesItemProps {
 	courseId: string;
@@ -15,6 +24,8 @@ interface SlidesItemProps {
 }
 
 export default function SlidesItem(props: SlidesItemProps) {
+	const [editDialogIsOpen, { open: openEditDialog, close: closeEditDialog }] =
+		useDisclosure(false);
 	const [
 		deleteDialogIsOpen,
 		{ open: openDeleteDialog, close: closeDeleteDialog },
@@ -47,7 +58,9 @@ export default function SlidesItem(props: SlidesItemProps) {
 						<Menu.Item onClick={openDetailsDialog}>
 							View Details
 						</Menu.Item>
-						<Menu.Item>Edit Slides</Menu.Item>
+						<Menu.Item onClick={openEditDialog}>
+							Edit Slides
+						</Menu.Item>
 						<Menu.Item onClick={openDeleteDialog}>
 							Delete Slides
 						</Menu.Item>
@@ -57,6 +70,15 @@ export default function SlidesItem(props: SlidesItemProps) {
 			<a href={props.slides.link} target="_blank">
 				{props.slides.title}
 			</a>
+			<EditSlidesDialog
+				slides={props.slides}
+				courseId={props.courseId}
+				dialogProps={{
+					opened: editDialogIsOpen,
+					open: openEditDialog,
+					close: closeEditDialog,
+				}}
+			/>
 			<DeleteSlidesDialog
 				slides={props.slides}
 				courseId={props.courseId}
@@ -75,6 +97,117 @@ export default function SlidesItem(props: SlidesItemProps) {
 				}}
 			/>
 		</Button>
+	);
+}
+
+interface EditSlidesDialogProps {
+	dialogProps: {
+		opened: boolean;
+		close: () => void;
+		open: () => void;
+	};
+	slides: SlidesAttributes;
+	courseId: string;
+}
+
+function EditSlidesDialog(props: EditSlidesDialogProps) {
+	const { slides, dialogProps, courseId } = props;
+	const form = useForm({
+		mode: "uncontrolled",
+		initialValues: {
+			slides_title: slides.title,
+			slides_link: slides.link,
+			slides_description: slides.description,
+		},
+		validate: {
+			slides_title: (value) =>
+				value.trim().length == 0 ? "Slides title is required" : null,
+			slides_link: (value) =>
+				value.trim().length == 0
+					? "The link to the slides is required"
+					: null,
+		},
+	});
+	const [submitBtnIsDisabled, setSubmitBtnIsDisabled] = useState(false);
+	const router = useRouter();
+
+	async function handleSubmit(values: typeof form.values) {
+		setSubmitBtnIsDisabled(true);
+		try {
+			await updateSlides(
+				{
+					$id: slides.$id,
+					title: values.slides_title,
+					link: values.slides_link,
+					description: values.slides_description,
+				},
+				courseId
+			);
+			notifications.show({
+				title: "Slides updated",
+				message: `Slides ${slides.title} updated successfully`,
+			});
+
+			router.refresh();
+			dialogProps.close();
+		} catch (error) {
+			notifications.show({
+				title: "Slides not updated",
+				message:
+					error instanceof Error
+						? error.message
+						: "An error occurred while updating the slides",
+			});
+		}
+		setSubmitBtnIsDisabled(false);
+	}
+	return (
+		<Modal
+			title="Edit Slides"
+			size="lg"
+			opened={dialogProps.opened}
+			onClose={dialogProps.close}
+			centered>
+			<form
+				className="flex flex-col gap-2"
+				onSubmit={form.onSubmit(handleSubmit)}>
+				<TextInput
+					size="md"
+					radius="xs"
+					label="Title"
+					placeholder="Lecture1_2024"
+					name="slides_title"
+					key={form.key("slides_title")}
+					{...form.getInputProps("slides_title")}
+					required
+				/>
+				<TextInput
+					type="url"
+					size="md"
+					radius="xs"
+					label="Link"
+					name="slides_link"
+					key={form.key("slides_link")}
+					{...form.getInputProps("slides_link")}
+					required
+				/>
+				<Textarea
+					size="md"
+					radius="xs"
+					label="Description"
+					name="slides_description"
+					key={form.key("slides_description")}
+					{...form.getInputProps("slides_description")}
+				/>
+				<Button
+					type="submit"
+					color="gray"
+					size="md"
+					disabled={submitBtnIsDisabled}>
+					Update
+				</Button>
+			</form>
+		</Modal>
 	);
 }
 

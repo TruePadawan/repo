@@ -188,6 +188,25 @@ export async function addSlides(
 	});
 }
 
+export async function updateSlides(slides: SlidesAttributes, courseId: string) {
+	const databases = await getDatabases();
+	const response = await databases.getDocument(
+		DATABASE_ID,
+		COLLECTION_ID,
+		courseId,
+		[Query.select(["slides"])]
+	);
+	const course: Pick<CourseItemAttributes, "slides"> = {
+		slides: response.slides,
+	};
+	const updatedSlides = course.slides ? JSON.parse(course.slides) : {};
+	updatedSlides[slides.$id] = slides;
+
+	await databases.updateDocument(DATABASE_ID, COLLECTION_ID, courseId, {
+		slides: JSON.stringify(updatedSlides),
+	});
+}
+
 export async function deleteSlides(courseId: string, slidesId: string) {
 	const databases = await getDatabases();
 	const response = await databases.getDocument(
