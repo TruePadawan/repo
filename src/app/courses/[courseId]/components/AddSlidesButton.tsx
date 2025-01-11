@@ -59,6 +59,7 @@ export default function AddSlidesButton(props: AddSlidesButtonProps) {
 						: "An error occurred while adding the slides",
 			});
 		}
+		setSubmitBtnIsDisabled(false);
 	}
 
 	return (
