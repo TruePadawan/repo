@@ -52,6 +52,7 @@ export default function AddRecommendedTextButton(
 						: "An error occurred while adding the text",
 			});
 		}
+		setSubmitBtnIsDisabled(false);
 	}
 
 	return (
