@@ -1,12 +1,12 @@
 import { getCourse } from "@/app/actions/courseActions";
 import { Button } from "@mantine/core";
 import Link from "next/link";
-import EditCourseButton from "./EditCourseButton";
-import DeleteCourseButton from "./DeleteCourseButton";
-import AddRecommendedTextButton from "./AddRecommendedTextButton";
+import EditCourseButton from "./components/EditCourseButton";
+import DeleteCourseButton from "./components/DeleteCourseButton";
+import AddRecommendedTextButton from "./components/AddRecommendedTextButton";
 import { parseRecommendedTexts, parseSlidesList } from "@/lib/utils";
 import RecommendedTextItem from "@/components/RecommendedTextItem/RecommendedTextItem";
-import AddSlidesButton from "./AddSlidesButton";
+import AddSlidesButton from "./components/AddSlidesButton";
 import SlidesItem from "@/components/SlidesItem/SlidesItem";
 
 interface PageProps {
