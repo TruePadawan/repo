@@ -6,13 +6,10 @@ import {
 	MenuTarget,
 } from "@mantine/core";
 import "@mantine/core/styles.css";
-import {
-	IconBrandGithub,
-	IconBrandGoogle,
-	IconLogout,
-} from "@tabler/icons-react";
-import { signUpWithGithub, signUpWithGoogle } from "@/lib/server/oauth";
+import { IconBrandGithub, IconLogout } from "@tabler/icons-react";
+import { signUpWithGithub } from "@/lib/server/oauth";
 import { getLoggedInUser, signOut } from "@/lib/server/appwrite";
+import AuthBtnMenuTarget from "./AuthBtnMenuTarget";
 
 export default async function AuthButton() {
 	const user = await getLoggedInUser();
@@ -27,11 +24,6 @@ export default async function AuthButton() {
 					</MenuTarget>
 					<MenuDropdown>
 						<MenuItem
-							leftSection={<IconBrandGoogle />}
-							onClick={signUpWithGoogle}>
-							Sign in with Google
-						</MenuItem>
-						<MenuItem
 							leftSection={<IconBrandGithub />}
 							onClick={signUpWithGithub}>
 							Sign in with Github
@@ -41,11 +33,7 @@ export default async function AuthButton() {
 			)}
 			{user && (
 				<Menu>
-					<MenuTarget>
-						<Button variant="light" size="md" color="gray">
-							{user.name}
-						</Button>
-					</MenuTarget>
+					<AuthBtnMenuTarget userName={user.name} />
 					<MenuDropdown>
 						<MenuItem
 							leftSection={<IconLogout />}

@@ -6,7 +6,7 @@ import {
 } from "@mantine/core";
 import "@mantine/core/styles.css";
 import Link from "next/link";
-import AuthButton from "@/components/AuthButton";
+import AuthButton from "@/components/AuthButton/AuthButton";
 import "./globals.css";
 import "@mantine/notifications/styles.css";
 import { Notifications } from "@mantine/notifications";
