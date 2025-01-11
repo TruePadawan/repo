@@ -3,6 +3,9 @@ import { Button } from "@mantine/core";
 import Link from "next/link";
 import EditCourseButton from "./EditCourseButton";
 import DeleteCourseButton from "./DeleteCourseButton";
+import AddRecommendedTextButton from "./AddRecommendedTextButton";
+import { parseRecommendedTexts } from "@/lib/utils";
+import RecommendedTextItem from "@/components/RecommendedTextItem/RecommendedTextItem";
 
 interface PageProps {
 	params: Promise<{ courseId: string }>;
@@ -11,7 +14,7 @@ interface PageProps {
 export default async function Page({ params }: PageProps) {
 	const courseId = (await params).courseId;
 	const course = await getCourse(courseId);
-
+	const texts = parseRecommendedTexts(course.recommended_texts);
 	return (
 		<main className="flex flex-col gap-2">
 			<Button color="gray" component={Link} href="/">
@@ -33,16 +36,18 @@ export default async function Page({ params }: PageProps) {
 					</div>
 				</div>
 				{/* RECOMMENDED TEXTS */}
-				<div className="flex flex-col">
+				<div className="flex flex-col gap-3">
 					<div className="flex justify-between">
 						<h2 className="text-4xl font-bold">
 							Recommended Texts
 						</h2>
-						<Button color="gray" size="md">
-							Add Recommended Text
-						</Button>
+						<AddRecommendedTextButton courseId={course.$id} />
 					</div>
-					<ul></ul>
+					<ul className="flex flex-wrap gap-2">
+						{texts.map((text) => (
+							<RecommendedTextItem key={text.$id} {...text} />
+						))}
+					</ul>
 				</div>
 				{/* COURSE SLIDES */}
 				<div className="flex flex-col">
