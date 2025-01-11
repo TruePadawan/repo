@@ -1,0 +1,8 @@
+.root {
+    color: #00FF37;
+    font-weight: bold;
+
+    &:hover {
+        color: #00FF37;
+    }
+}

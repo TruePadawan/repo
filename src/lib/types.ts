@@ -28,3 +28,14 @@ export interface SlidesAttributes {
 export interface SlidesListAttributes {
 	[index: string]: SlidesAttributes;
 }
+
+export interface ResourceAttributes {
+	$id: string;
+	title: string;
+	description?: string;
+	link: string;
+}
+
+export interface ResourcesAttributes {
+	[index: string]: ResourceAttributes;
+}

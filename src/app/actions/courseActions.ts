@@ -5,6 +5,8 @@ import {
 	CourseItemAttributes,
 	RecommendedTextAttributes,
 	RecommendedTextsAttributes,
+	ResourceAttributes,
+	ResourcesAttributes,
 	SlidesAttributes,
 	SlidesListAttributes,
 } from "@/lib/types";
@@ -222,5 +224,24 @@ export async function deleteSlides(courseId: string, slidesId: string) {
 	delete slides[slidesId];
 	await databases.updateDocument(DATABASE_ID, COLLECTION_ID, courseId, {
 		slides: JSON.stringify(slides),
+	});
+}
+
+export async function addResource(
+	courseId: string,
+	resource: Omit<ResourceAttributes, "$id">
+) {
+	const course = await getCourse(courseId);
+	const resources: ResourcesAttributes = course.other_resources
+		? JSON.parse(course.other_resources)
+		: {};
+	const id = ID.unique();
+	const updatedResources = {
+		...resources,
+		[id]: { ...resource, $id: id },
+	};
+	await updateCourse({
+		...course,
+		other_resources: JSON.stringify(updatedResources),
 	});
 }

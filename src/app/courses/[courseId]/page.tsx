@@ -4,10 +4,16 @@ import Link from "next/link";
 import EditCourseButton from "./components/EditCourseButton";
 import DeleteCourseButton from "./components/DeleteCourseButton";
 import AddRecommendedTextButton from "./components/AddRecommendedTextButton";
-import { parseRecommendedTexts, parseSlidesList } from "@/lib/utils";
+import {
+	parseRecommendedTexts,
+	parseResources,
+	parseSlidesList,
+} from "@/lib/utils";
 import RecommendedTextItem from "@/components/RecommendedTextItem/RecommendedTextItem";
 import AddSlidesButton from "./components/AddSlidesButton";
 import SlidesItem from "@/components/SlidesItem/SlidesItem";
+import AddResourceButton from "./components/AddResourceButton";
+import ResourceItem from "@/components/ResourceItem/ResourceItem";
 
 interface PageProps {
 	params: Promise<{ courseId: string }>;
@@ -18,6 +24,7 @@ export default async function Page({ params }: PageProps) {
 	const course = await getCourse(courseId);
 	const texts = parseRecommendedTexts(course.recommended_texts);
 	const slidesList = parseSlidesList(course.slides);
+	const resources = parseResources(course.other_resources);
 
 	return (
 		<main className="flex flex-col gap-2">
@@ -77,11 +84,17 @@ export default async function Page({ params }: PageProps) {
 				<div className="flex flex-col gap-3">
 					<div className="flex justify-between">
 						<h2 className="text-4xl font-bold">Other Resources</h2>
-						<Button color="gray" size="md">
-							Add Resource
-						</Button>
+						<AddResourceButton courseId={course.$id} />
 					</div>
-					<ul></ul>
+					<ul className="flex flex-wrap gap-2">
+						{resources.map((resource) => (
+							<ResourceItem
+								key={resource.$id}
+								resource={resource}
+								courseId={courseId}
+							/>
+						))}
+					</ul>
 				</div>
 			</div>
 		</main>
