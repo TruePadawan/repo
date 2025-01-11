@@ -79,7 +79,7 @@ export default function RecommendedTextItem(props: RecommendedTextItemProps) {
 				text={props.text}
 				courseId={props.courseId}
 			/>
-			<RecommendedTextDetails
+			<RecommendedTextDetailsDialog
 				dialogProps={{
 					opened: detailsDialogIsOpen,
 					open: openDetailsDialog,
@@ -256,7 +256,7 @@ interface RecommendedTextDetailsDialogProps {
 	text: RecommendedTextAttributes;
 }
 
-function RecommendedTextDetails(props: RecommendedTextDetailsDialogProps) {
+function RecommendedTextDetailsDialog(props: RecommendedTextDetailsDialogProps) {
 	const { dialogProps, text } = props;
 	return (
 		<Modal
