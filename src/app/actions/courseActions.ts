@@ -5,6 +5,8 @@ import {
 	CourseItemAttributes,
 	RecommendedTextAttributes,
 	RecommendedTextsAttributes,
+	SlidesAttributes,
+	SlidesListAttributes,
 } from "@/lib/types";
 import { COLLECTION_ID, DATABASE_ID } from "@/lib/utils";
 import { ID, Query } from "node-appwrite";
@@ -166,5 +168,22 @@ export async function deleteRecommendedText(courseId: string, textId: string) {
 	delete recommended_texts[textId];
 	await databases.updateDocument(DATABASE_ID, COLLECTION_ID, courseId, {
 		recommended_texts: JSON.stringify(recommended_texts),
+	});
+}
+
+export async function addSlides(
+	courseId: string,
+	slides: Omit<SlidesAttributes, "$id">
+) {
+	const course = await getCourse(courseId);
+	const slidesList = course.slides ? JSON.parse(course.slides) : {};
+	const id = ID.unique();
+	const newSlidesList: SlidesListAttributes = {
+		...slidesList,
+		[id]: { ...slides, $id: id },
+	};
+	await updateCourse({
+		...course,
+		slides: JSON.stringify(newSlidesList),
 	});
 }
