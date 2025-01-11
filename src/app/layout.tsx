@@ -23,7 +23,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className="h-full" {...mantineHtmlProps}>
+		<html lang="en" {...mantineHtmlProps}>
 			<head>
 				<ColorSchemeScript />
 				<link
@@ -37,9 +37,9 @@ export default function RootLayout({
 					sizes="60x60"
 					href="/icons8-repo-color-60.png"></link>
 			</head>
-			<body className="h-full">
+			<body>
 				<MantineProvider defaultColorScheme="dark">
-					<div className="h-full px-4 py-2 flex flex-col gap-4">
+					<div className="min-h-screen px-4 py-2 flex flex-col gap-4">
 						<Notifications />
 						<header className="flex justify-between">
 							<h1 className="text-5xl font-bold">
@@ -48,7 +48,7 @@ export default function RootLayout({
 							<AuthButton />
 						</header>
 						{children}
-						<footer className="flex justify-center font-bold">
+						<footer className="mt-auto flex justify-center font-bold">
 							<a
 								target="_blank"
 								href="https://icons8.com/icon/33318/repository">
