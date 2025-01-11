@@ -45,7 +45,11 @@ export default async function Page({ params }: PageProps) {
 					</div>
 					<ul className="flex flex-wrap gap-2">
 						{texts.map((text) => (
-							<RecommendedTextItem key={text.$id} {...text} />
+							<RecommendedTextItem
+								key={text.$id}
+								text={text}
+								courseId={courseId}
+							/>
 						))}
 					</ul>
 				</div>
