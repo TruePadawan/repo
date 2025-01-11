@@ -21,6 +21,7 @@ export interface RecommendedTextsAttributes {
 export interface SlidesAttributes {
 	$id: string;
 	title: string;
+	description?: string;
 	link: string;
 }
 

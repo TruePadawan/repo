@@ -1,7 +1,7 @@
 "use client";
 import { addSlides } from "@/app/actions/courseActions";
 import { SlidesAttributes } from "@/lib/types";
-import { Button, Modal, TextInput } from "@mantine/core";
+import { Button, Modal, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
@@ -16,7 +16,11 @@ export default function AddSlidesButton(props: AddSlidesButtonProps) {
 	const [opened, { open, close }] = useDisclosure();
 	const form = useForm({
 		mode: "uncontrolled",
-		initialValues: { slides_title: "", slides_link: "" },
+		initialValues: {
+			slides_title: "",
+			slides_link: "",
+			slides_description: "",
+		},
 		validate: {
 			slides_title: (value) =>
 				value.trim().length == 0 ? "Slides title is required" : null,
@@ -35,6 +39,7 @@ export default function AddSlidesButton(props: AddSlidesButtonProps) {
 			const slides: Omit<SlidesAttributes, "$id"> = {
 				title: values.slides_title,
 				link: values.slides_link,
+				description: values.slides_description,
 			};
 			await addSlides(props.courseId, slides);
 			notifications.show({
@@ -89,6 +94,14 @@ export default function AddSlidesButton(props: AddSlidesButtonProps) {
 						key={form.key("slides_link")}
 						{...form.getInputProps("slides_link")}
 						required
+					/>
+					<Textarea
+						size="md"
+						radius="xs"
+						label="Description"
+						name="slides_description"
+						key={form.key("slides_description")}
+						{...form.getInputProps("slides_description")}
 					/>
 					<Button
 						type="submit"
