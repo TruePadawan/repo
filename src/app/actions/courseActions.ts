@@ -1,7 +1,11 @@
 "use server";
 
 import { getDatabases, getLoggedInUser } from "@/lib/server/appwrite";
-import { CourseItemAttributes } from "@/lib/types";
+import {
+	CourseItemAttributes,
+	RecommendedTextAttributes,
+	RecommendedTextsAttributes,
+} from "@/lib/types";
 import { COLLECTION_ID, DATABASE_ID } from "@/lib/utils";
 import { ID, Query } from "node-appwrite";
 
@@ -100,4 +104,23 @@ export async function createCourse(
 export async function deleteCourse(courseId: string) {
 	const databases = await getDatabases();
 	await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, courseId);
+}
+
+export async function addRecommendedText(
+	courseId: string,
+	text: Omit<RecommendedTextAttributes, "$id">
+) {
+	const course = await getCourse(courseId);
+	const recommended_texts = course.recommended_texts
+		? JSON.parse(course.recommended_texts)
+		: {};
+	const id = ID.unique();
+	const newRecommendedTexts: RecommendedTextsAttributes = {
+		...recommended_texts,
+		[id]: { ...text, $id: id },
+	};
+	await updateCourse({
+		...course,
+		recommended_texts: JSON.stringify(newRecommendedTexts),
+	});
 }
