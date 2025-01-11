@@ -7,3 +7,13 @@ export interface CourseItemAttributes {
     other_resources?: string;
     createdBy: string;
 }
+
+export interface RecommendedTextAttributes {
+	$id: string;
+	title: string;
+	author?: string
+} 
+
+export interface RecommendedTextsAttributes {
+	[index: string]: RecommendedTextAttributes;
+}
