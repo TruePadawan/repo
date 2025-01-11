@@ -8,7 +8,10 @@ import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/navigation";
-import { updateRecommendedText } from "@/app/actions/courseActions";
+import {
+	deleteRecommendedText,
+	updateRecommendedText,
+} from "@/app/actions/courseActions";
 
 interface RecommendedTextItemProps {
 	text: RecommendedTextAttributes;
@@ -17,10 +20,10 @@ interface RecommendedTextItemProps {
 export default function RecommendedTextItem(props: RecommendedTextItemProps) {
 	const [editDialogIsOpen, { open: openEditDialog, close: closeEditDialog }] =
 		useDisclosure(false);
-	// const [
-	// 	deleteDialogIsOpen,
-	// 	{ open: openDeleteDialog, close: closeDeleteDialog },
-	// ] = useDisclosure(false);
+	const [
+		deleteDialogIsOpen,
+		{ open: openDeleteDialog, close: closeDeleteDialog },
+	] = useDisclosure(false);
 
 	return (
 		<Button
@@ -41,8 +44,12 @@ export default function RecommendedTextItem(props: RecommendedTextItemProps) {
 						</ActionIcon>
 					</Menu.Target>
 					<Menu.Dropdown>
-						<Menu.Item onClick={openEditDialog}>Edit Recommended Text</Menu.Item>
-						<Menu.Item>Delete Recommended Text</Menu.Item>
+						<Menu.Item onClick={openEditDialog}>
+							Edit Recommended Text
+						</Menu.Item>
+						<Menu.Item onClick={openDeleteDialog}>
+							Delete Recommended Text
+						</Menu.Item>
 					</Menu.Dropdown>
 				</Menu>
 			}>
@@ -55,6 +62,15 @@ export default function RecommendedTextItem(props: RecommendedTextItemProps) {
 					open: openEditDialog,
 					close: closeEditDialog,
 				}}
+			/>
+			<DeleteRecommendedTextDialog
+				dialogProps={{
+					opened: deleteDialogIsOpen,
+					open: openDeleteDialog,
+					close: closeDeleteDialog,
+				}}
+				text={props.text}
+				courseId={props.courseId}
 			/>
 		</Button>
 	);
@@ -149,6 +165,69 @@ function EditRecommendedTextDialog(props: EditRecommendedTextDialogProps) {
 					Update
 				</Button>
 			</form>
+		</Modal>
+	);
+}
+
+interface DeleteRecommendedTextDialogProps {
+	dialogProps: {
+		opened: boolean;
+		close: () => void;
+		open: () => void;
+	};
+	text: RecommendedTextAttributes;
+	courseId: string;
+}
+function DeleteRecommendedTextDialog(props: DeleteRecommendedTextDialogProps) {
+	const { dialogProps, text, courseId } = props;
+	const [btnsAreDisabled, setBtnsAreDisabled] = useState(false);
+	const router = useRouter();
+
+	async function handleDelete() {
+		setBtnsAreDisabled(true);
+		try {
+			await deleteRecommendedText(courseId, text.$id);
+			notifications.show({
+				title: "Text deleted",
+				message: `Text - ${text.title} deleted successfully`,
+			});
+			router.refresh();
+			dialogProps.close();
+		} catch (error) {
+			notifications.show({
+				title: "Course not updated",
+				message:
+					error instanceof Error
+						? error.message
+						: "An error occurred while deleting the text",
+			});
+		}
+		setBtnsAreDisabled(false);
+	}
+	return (
+		<Modal
+			title="Delete Text"
+			size="lg"
+			onClose={dialogProps.close}
+			opened={dialogProps.opened}
+			centered>
+			<p className="text-lg">{`Are you sure you want to delete ${text.title}`}</p>
+			<div className="mt-2 flex flex-col gap-2">
+				<Button
+					color="red"
+					size="sm"
+					onClick={handleDelete}
+					disabled={btnsAreDisabled}>
+					Yes
+				</Button>
+				<Button
+					color="gray"
+					size="sm"
+					onClick={dialogProps.close}
+					disabled={btnsAreDisabled}>
+					No
+				</Button>
+			</div>
 		</Modal>
 	);
 }

@@ -148,3 +148,23 @@ export async function updateRecommendedText(
 		recommended_texts: JSON.stringify(recommended_texts),
 	});
 }
+
+export async function deleteRecommendedText(courseId: string, textId: string) {
+	const databases = await getDatabases();
+	const response = await databases.getDocument(
+		DATABASE_ID,
+		COLLECTION_ID,
+		courseId,
+		[Query.select(["recommended_texts"])]
+	);
+	const course: Pick<CourseItemAttributes, "recommended_texts"> = {
+		recommended_texts: response.recommended_texts,
+	};
+	const recommended_texts = course.recommended_texts
+		? JSON.parse(course.recommended_texts)
+		: {};
+	delete recommended_texts[textId];
+	await databases.updateDocument(DATABASE_ID, COLLECTION_ID, courseId, {
+		recommended_texts: JSON.stringify(recommended_texts),
+	});
+}
