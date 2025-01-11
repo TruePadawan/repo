@@ -30,7 +30,7 @@ export default async function Page({ params }: PageProps) {
 	const allowManipulation = user?.$id == course.createdBy;
 
 	return (
-		<main className="flex flex-col gap-2">
+		<main className="h-full flex flex-col gap-2">
 			<Button color="gray" component={Link} href="/">
 				Go to homepage
 			</Button>
