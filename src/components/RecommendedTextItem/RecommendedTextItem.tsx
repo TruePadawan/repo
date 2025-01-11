@@ -126,8 +126,8 @@ function EditRecommendedTextDialog(props: EditRecommendedTextDialogProps) {
 				courseId
 			);
 			notifications.show({
-				title: "Course updated",
-				message: `Course ${text.title} updated successfully`,
+				title: "Text updated",
+				message: `Text ${text.title} updated successfully`,
 			});
 
 			router.refresh();
@@ -210,7 +210,7 @@ function DeleteRecommendedTextDialog(props: DeleteRecommendedTextDialogProps) {
 			dialogProps.close();
 		} catch (error) {
 			notifications.show({
-				title: "Course not updated",
+				title: "Text not deleted",
 				message:
 					error instanceof Error
 						? error.message
