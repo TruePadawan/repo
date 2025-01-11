@@ -24,6 +24,10 @@ export default function RecommendedTextItem(props: RecommendedTextItemProps) {
 		deleteDialogIsOpen,
 		{ open: openDeleteDialog, close: closeDeleteDialog },
 	] = useDisclosure(false);
+	const [
+		detailsDialogIsOpen,
+		{ open: openDetailsDialog, close: closeDetailsDialog },
+	] = useDisclosure(false);
 
 	return (
 		<Button
@@ -44,6 +48,9 @@ export default function RecommendedTextItem(props: RecommendedTextItemProps) {
 						</ActionIcon>
 					</Menu.Target>
 					<Menu.Dropdown>
+						<Menu.Item onClick={openDetailsDialog}>
+							View Details
+						</Menu.Item>
 						<Menu.Item onClick={openEditDialog}>
 							Edit Recommended Text
 						</Menu.Item>
@@ -71,6 +78,14 @@ export default function RecommendedTextItem(props: RecommendedTextItemProps) {
 				}}
 				text={props.text}
 				courseId={props.courseId}
+			/>
+			<RecommendedTextDetails
+				dialogProps={{
+					opened: detailsDialogIsOpen,
+					open: openDetailsDialog,
+					close: closeDetailsDialog,
+				}}
+				text={props.text}
 			/>
 		</Button>
 	);
@@ -227,6 +242,40 @@ function DeleteRecommendedTextDialog(props: DeleteRecommendedTextDialogProps) {
 					disabled={btnsAreDisabled}>
 					No
 				</Button>
+			</div>
+		</Modal>
+	);
+}
+
+interface RecommendedTextDetailsDialogProps {
+	dialogProps: {
+		opened: boolean;
+		close: () => void;
+		open: () => void;
+	};
+	text: RecommendedTextAttributes;
+}
+
+function RecommendedTextDetails(props: RecommendedTextDetailsDialogProps) {
+	const { dialogProps, text } = props;
+	return (
+		<Modal
+			title="Recommended Text"
+			size="lg"
+			opened={dialogProps.opened}
+			onClose={dialogProps.close}
+			centered>
+			<div className="flex flex-col gap-4">
+				<div className="flex flex-col gap-1">
+					<p className="text-md">Title</p>
+					<p className="text-lg font-bold">{text.title}</p>
+				</div>
+				<div className="flex flex-col gap-1">
+					<p className="text-md">Author</p>
+					<p className="text-lg font-bold">
+						{text.author || "Unknown"}
+					</p>
+				</div>
 			</div>
 		</Modal>
 	);
