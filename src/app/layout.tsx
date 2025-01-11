@@ -36,6 +36,20 @@ export default function RootLayout({
 					type="image/png"
 					sizes="60x60"
 					href="/icons8-repo-color-60.png"></link>
+				<meta property="og:type" content="website" />
+				<meta
+					property="og:image"
+					content="https://i.imgur.com/uJrwKU1.png"
+				/>
+				<meta property="og:image:alt" content="REPO home page" />
+				<meta name="twitter:card" content="summary_large_image" />
+				<meta
+					name="twitter:image"
+					content="https://i.imgur.com/uJrwKU1.png"
+				/>
+				<meta name="twitter:image:alt" content="REPO home page" />
+				<meta name="twitter:site" content="@thetruepadawan" />
+				<meta name="twitter:creator" content="@thetruepadawan" />
 			</head>
 			<body>
 				<MantineProvider defaultColorScheme="dark">
